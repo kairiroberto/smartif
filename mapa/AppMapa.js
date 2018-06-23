@@ -136,11 +136,13 @@ class AppMapa extends Component {
     
     gerarMarker() {
         var objetos = JSON.parse(this.state.professores);
+        var i = 0;
         for (professor in this.state.professores){
             <MapView.Marker
-                coordinate={{latitude: this.state.professores[professor].latitude, longitude: this.state.professores[professor].longitude}}
+                coordinate={{latitude: i, longitude: i}}
                 title={this.state.professores[professor].matricula}
-            />              
+            />             
+            i++;
         }
     }
 
