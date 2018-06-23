@@ -140,7 +140,7 @@ class AppMapa extends Component {
         for (professor in this.state.professores){
             <MapView.Marker
                 coordinate={{latitude: i, longitude: i}}
-                title={this.state.professores[professor].matricula}
+                title={"TESTE"}
             />             
             i++;
         }
