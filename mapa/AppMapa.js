@@ -73,15 +73,14 @@ class AppMapa extends Component {
   enviarPosicao(matricula, latitude, longitude) {
         fetch("https://smartif-96d6d.firebaseio.com/professor.json",
         {
-            method: 'POST',
+            method: 'PUT',
             headers: {
               Accept: 'application/json',
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify(
-            "{ 'matricula' : '" + matricula + "': {'latitude': '" + latitude + "', 'longitude': '"+ longitude + "'}}"   
-            )
-        });
+            body: 
+                "{'" + matricula + "' : {'latitude': '" + latitude + "', 'longitude': '"+ longitude + "'}}"   
+            });
     }
 
   componentDidMount() {
@@ -136,7 +135,7 @@ class AppMapa extends Component {
     
     gerarMarker() {
         var i = 0;
-        for (professor in this.state.professores){
+        for (professor in JSON.parse(this.state.professores)){
             <MapView.Marker
                 coordinate={{latitude: i, longitude: i}}
                 title={"TESTE"}
