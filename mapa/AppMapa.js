@@ -29,7 +29,6 @@ class AppMapa extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            marca: null,
             professores: null,
             figura: './ifrnicon.png',
             infoPosicaoAl: null,
@@ -72,19 +71,20 @@ class AppMapa extends Component {
     }
 
   enviarPosicao(matricula, latitude, longitude) {
-        fetch("https://smartif-96d6d.firebaseio.com/professor/"+matricula,
+        fetch("https://smartif-96d6d.firebaseio.com/professor/"+matricula+"/",
         {
             method: 'POST',
             headers: {
               Accept: 'application/json',
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-		        latitude: latitude,
-                        longitude: longitude,
-            }),
+            body: JSON.stringify(
+            {
+                latitude: latitude,
+                longitude: longitude,
+            }
+            )
         });
-        Alert.alert("SAIU");
     }
 
   componentDidMount() {
@@ -135,10 +135,11 @@ class AppMapa extends Component {
     }
     
     gerarMarker() {
+        var objetos = JSON.parse(this.state.professores);
         for (professor in this.state.professores){
             <MapView.Marker
-                coordinate={{latitude: professor["latitude"], longitude: professor["longitude"]}}
-                title={professor["matricula"]}
+                coordinate={{latitude: this.state.professores[professor].latitude, longitude: this.state.professores[professor].longitude}}
+                title={this.state.professores[professor].matricula}
             />              
         }
     }
