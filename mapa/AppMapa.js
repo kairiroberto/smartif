@@ -71,7 +71,7 @@ class AppMapa extends Component {
     }
 
   enviarPosicao(matricula, latitude, longitude) {
-        fetch("https://smartif-96d6d.firebaseio.com/professor/"+matricula+"/",
+        fetch("https://smartif-96d6d.firebaseio.com/professor.json",
         {
             method: 'POST',
             headers: {
@@ -79,10 +79,7 @@ class AppMapa extends Component {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify(
-            {
-                latitude: latitude,
-                longitude: longitude,
-            }
+            "{ 'matricula' : '" + matricula + "': {'latitude': '" + latitude + "', 'longitude': '"+ longitude + "'}}"   
             )
         });
     }
@@ -105,7 +102,10 @@ class AppMapa extends Component {
                         infoPosicaoAl: (estaNoIFRN) ? 'Você está no IFRN de Currais Novos' : 'Você não está no IFRN de Currais Novos',
                         error: null,
                     });
-                    this.enviarPosicao("123456", position.coords.latitude, position.coords.longitude);
+                    //this.enviarPosicao(AsyncStorage.getItem(USERNAME), position.coords.latitude, position.coords.longitude);
+                    this.enviarPosicao("12345", position.coords.latitude, position.coords.longitude);
+                    this.enviarPosicao("54321", position.coords.latitude, position.coords.longitude);
+                    this.enviarPosicao("67890", position.coords.latitude, position.coords.longitude);
                     this.consultarPosicao();
                 },
                 (error) => this.setState({error: error.message, latitudeAl: 0.0, longitudeAl: 0.0}),
@@ -135,7 +135,6 @@ class AppMapa extends Component {
     }
     
     gerarMarker() {
-        var objetos = JSON.parse(this.state.professores);
         var i = 0;
         for (professor in this.state.professores){
             <MapView.Marker
