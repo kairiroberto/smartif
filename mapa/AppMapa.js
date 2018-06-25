@@ -28,26 +28,31 @@ class AppMapa extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            professores: null,
-            figura: './ifrnicon.png',
-            infoPosicaoAl: null,
-            latitudeAl: 0.0,
-            longitudeAl: 0.0,
-            erro: null,
-            amount: 0,
-            enableHack: false,
-            region: {
-              latitude: LATITUDE,
-              longitude: LONGITUDE,
-              latitudeDelta: LATITUDE_DELTA,
-              longitudeDelta: LONGITUDE_DELTA,
-            },
-            coordinate: {
-              latitude: LATITUDE,
-              longitude: LONGITUDE,
-            },
-          };
+        try {
+            this.state = {
+                matricula: AsyncStorage.getItem(USERNAME, (error) => {}),
+                professores: "",
+                figura: './ifrnicon.png',
+                infoPosicaoAl: null,
+                latitudeAl: 0.0,
+                longitudeAl: 0.0,
+                erro: null,
+                amount: 0,
+                enableHack: false,
+                region: {
+                  latitude: LATITUDE,
+                  longitude: LONGITUDE,
+                  latitudeDelta: LATITUDE_DELTA,
+                  longitudeDelta: LONGITUDE_DELTA,
+                },
+                coordinate: {
+                  latitude: LATITUDE,
+                  longitude: LONGITUDE,
+                },
+              };
+      } catch (error) {
+          
+      }
     }
 
   consultarPosicao() {
@@ -74,11 +79,8 @@ class AppMapa extends Component {
         fetch("https://smartif-96d6d.firebaseio.com/professor.json",
         {
             method: 'PUT',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: "{'" + matricula + "' : {'latitude': '" + latitude + "', 'longitude': '"+ longitude + "'}}"});
+            body: this.state.professores + "," + JSON.stringify("{'" + matricula + "' : {'latitude': '" + latitude + "', 'longitude': '" + longitude + "'}}")
+        });
     }
     
     conferirirPosicaoAluno(latitudeAl, longitudeAl) {
@@ -115,16 +117,15 @@ class AppMapa extends Component {
                         infoPosicaoAl: (estaNoIFRN) ? 'Você está no IFRN de Currais Novos' : 'Você não está no IFRN de Currais Novos',
                         error: null,
                     });
-                    //this.enviarPosicao(AsyncStorage.getItem(USERNAME), position.coords.latitude, position.coords.longitude);
+                    this.enviarPosicao("12345", this.state.latitudeAl, this.state.longitudeAl);
+                    this.enviarPosicao("54321", this.state.latitudeAl, this.state.longitudeAl);
+                    this.enviarPosicao("67890", this.state.latitudeAl, this.state.longitudeAl);
+                    this.enviarPosicao(this.state.matricula, this.state.latitudeAl, this.state.longitudeAl);
+                    this.consultarPosicao();
                 },
                 (error) => this.setState({error: error.message, latitudeAl: 0.0, longitudeAl: 0.0}),
                 {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10},
         );
-        this.enviarPosicao("12345", this.state.latitudeAl, this.state.longitudeAl);
-        this.enviarPosicao("54321", this.state.latitudeAl, this.state.longitudeAl);
-        this.enviarPosicao("67890", this.state.latitudeAl, this.state.longitudeAl);
-        this.enviarPosicao(AsyncStorage.getItem(USERNAME), this.state.latitudeAl, this.state.longitudeAl);
-        this.consultarPosicao();
     }
 
     componentWillUnmount() {
