@@ -78,9 +78,23 @@ class AppMapa extends Component {
               Accept: 'application/json',
               'Content-Type': 'application/json',
             },
-            body: 
-                "{'" + matricula + "' : {'latitude': '" + latitude + "', 'longitude': '"+ longitude + "'}}"   
-            });
+            body: "{'" + matricula + "' : {'latitude': '" + latitude + "', 'longitude': '"+ longitude + "'}}"});
+    }
+    
+    conferirirPosicaoAluno(latitudeAl, longitudeAl) {
+        var la = latitudeAl;
+        var l = this.state.coordinate.latitude;
+        var loa = longitudeAl;
+        var lo = this.state.coordinate.longitude;
+        if ((la > l - 0.004) && (la < l + 0.004) && (loa > lo - 0.004) && (loa < lo + 0.004)) {
+          return true;
+        } else {
+          return false;
+        }
+    }
+    
+    gerarMarker() {
+        
     }
 
   componentDidMount() {
@@ -102,27 +116,15 @@ class AppMapa extends Component {
                         error: null,
                     });
                     //this.enviarPosicao(AsyncStorage.getItem(USERNAME), position.coords.latitude, position.coords.longitude);
-                    this.enviarPosicao("12345", position.coords.latitude, position.coords.longitude);
-                    this.enviarPosicao("54321", position.coords.latitude, position.coords.longitude);
-                    this.enviarPosicao("67890", position.coords.latitude, position.coords.longitude);
-                    this.consultarPosicao();
                 },
                 (error) => this.setState({error: error.message, latitudeAl: 0.0, longitudeAl: 0.0}),
                 {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10},
         );
-
-    }
-
-    conferirirPosicaoAluno(latitudeAl, longitudeAl) {
-        var la = latitudeAl;
-        var l = this.state.coordinate.latitude;
-        var loa = longitudeAl;
-        var lo = this.state.coordinate.longitude;
-        if ((la > l - 0.004) && (la < l + 0.004) && (loa > lo - 0.004) && (loa < lo + 0.004)) {
-          return true;
-        } else {
-          return false;
-        }
+        this.enviarPosicao("12345", this.state.latitudeAl, this.state.longitudeAl);
+        this.enviarPosicao("54321", this.state.latitudeAl, this.state.longitudeAl);
+        this.enviarPosicao("67890", this.state.latitudeAl, this.state.longitudeAl);
+        this.enviarPosicao(AsyncStorage.getItem(USERNAME), this.state.latitudeAl, this.state.longitudeAl);
+        this.consultarPosicao();
     }
 
     componentWillUnmount() {
@@ -133,17 +135,6 @@ class AppMapa extends Component {
       this.setState({ region });
     }
     
-    gerarMarker() {
-        var i = 0;
-        for (professor in JSON.parse(this.state.professores)){
-            <MapView.Marker
-                coordinate={{latitude: i, longitude: i}}
-                title={"TESTE"}
-            />             
-            i++;
-        }
-    }
-
     render() {
         return (
                 <View>

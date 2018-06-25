@@ -26,6 +26,7 @@ export default class Login extends Component {
                 username: "20151038060256",
                 password: "C0l0$$u$04",
             });
+            AsyncStorage.setItem(USERNAME, this.state.username);
             try {
             fetch('https://suap.ifrn.edu.br/api/v2/autenticacao/token/', {
                         method: 'POST',
@@ -44,7 +45,6 @@ export default class Login extends Component {
                                 var token = response.token;
                                 this.setState({error: ""});
                                 this.storeToken(token);
-                                AsyncStorage.setItem(USERNAME, this.state.username);
                                 this.props.navigation.navigate('App2');
                             } else {
                                 alert("Não foi possível autenticar!");
