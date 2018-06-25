@@ -32,9 +32,9 @@ class AppMapa extends Component {
             this.state = {
                 matricula: "AsyncStorage.getItem(USERNAME, (error) => {})",
                 professoresString: "",
-                professoresJson: null,
+                professoresJson: {},
                 professorString: "",
-                professorJson: null,
+                professorJson: {},
                 figura: './ifrnicon.png',
                 infoPosicaoAl: null,
                 latitudeAl: 0.0,
@@ -79,7 +79,7 @@ class AppMapa extends Component {
         });
     }
     
-    consultarPosicao(matricula) {
+    consultarPosicaoMatricula(matricula) {
         fetch("https://smartif-96d6d.firebaseio.com/professor/" + matricula + ".json",
         {
             method: 'GET',
@@ -91,8 +91,8 @@ class AppMapa extends Component {
         .then((response) => response.json())
         .then((responseJson) => {
             this.setState({
-                professoresString: JSON.stringify(responseJson),
-                professoresJson: JSON.parse(JSON.stringify(responseJson)),
+                professorString: JSON.stringify(responseJson),
+                professorJson: JSON.parse(JSON.stringify(responseJson)),
             });
         })
         .catch((error) => {
@@ -123,15 +123,6 @@ class AppMapa extends Component {
           return false;
         }
     }
-    
-    gerarMarker() {
-        for (objteto in this.state.professores) {
-            <MapView.Marker
-                coordinate={{latitude: this.state.latitudeAl, longitude: this.state.longitudeAl}}
-                title={'Aluno'} 
-                />
-        }
-    }
 
   componentDidMount() {
         this.watchId = navigator.geolocation.watchPosition(
@@ -151,11 +142,12 @@ class AppMapa extends Component {
                         infoPosicaoAl: (estaNoIFRN) ? 'Você está no IFRN de Currais Novos' : 'Você não está no IFRN de Currais Novos',
                         error: null,
                     });
-                    this.enviarPosicao("12345", this.state.latitudeAl+0.003, this.state.longitudeAl);
-                    this.enviarPosicao("54321", this.state.latitudeAl+0.004, this.state.longitudeAl);
-                    this.enviarPosicao("67890", this.state.latitudeAl+0.005, this.state.longitudeAl);
+                    this.enviarPosicao("12345", this.state.latitudeAl+1.000, this.state.longitudeAl);
+                    this.enviarPosicao("54321", this.state.latitudeAl+2.000, this.state.longitudeAl);
+                    this.enviarPosicao("67890", this.state.latitudeAl+3.000, this.state.longitudeAl);
                     this.enviarPosicao(AsyncStorage.getItem(USERNAME), this.state.latitudeAl, this.state.longitudeAl);
                     this.consultarPosicao();
+                    this.consultarPosicaoMatricula("12345");
                 },
                 (error) => this.setState({error: error.message, latitudeAl: 0.0, longitudeAl: 0.0}),
                 {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10},
@@ -170,19 +162,33 @@ class AppMapa extends Component {
       this.setState({ region });
     }
     
+    gerarPontos(x, y) {
+        return (<MapView.Marker coordinate={{latitude: x, longitude: y}} />);
+    }
+    
+    gerarMarker() {
+        professores = this.state.professoresJson;
+        i = 0;
+        for (i = 0; i < professores.length; i++) {
+            this.gerarPontos(professores[i].latitude, professores[i].longitude);
+        }
+        return i;
+    }
+    
     render() {
         return (
                 <View>
                     <Text>
-                        {myObj = this.state.professor}
-                        Posicao Firebase: {Alert.alert(myObj[0].latitude)}
+                        Firebase (Conexões): {this.state.professoresString}
                     </Text>
                     <MapView
                       provider={this.props.provider}
                       style={styles.map}
                       region={this.state.region}
                     >
-                        {this.gerarMarker()}
+                        {this.gerarPontos(0.0, 0.0)}
+                        {this.gerarPontos(3.0, 1.0)}
+                        {this.gerarPontos(4.5, 1.5)}
                         <MapView.Marker
                             coordinate={{latitude: this.state.latitudeAl, longitude: this.state.longitudeAl}}
                             title={'Aluno'}

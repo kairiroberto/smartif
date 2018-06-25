@@ -14,14 +14,15 @@ import {
 } from 'react-navigation';
 import Mapa from './mapa/AppMapa';
 import Home from './login/AppHome';
+import Config from './login/AppConfig'
 import Logout from './login/AppLogin';
 import Login from './login/AppLogin';
 import App from './App';
 
 const MenuDrawer = DrawerNavigator(
     {
-        Home: { screen: Home },
         Mapa: { screen: Mapa },
+        Configuração: { screen: Config },
         Logout: { screen: Logout },
     }
 );
