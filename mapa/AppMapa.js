@@ -30,7 +30,7 @@ class AppMapa extends Component {
         super(props);
         try {
             this.state = {
-                matricula: AsyncStorage.getItem(USERNAME, (error) => {}),
+                matricula: "AsyncStorage.getItem(USERNAME, (error) => {})",
                 professores: "",
                 figura: './ifrnicon.png',
                 infoPosicaoAl: null,
@@ -76,10 +76,14 @@ class AppMapa extends Component {
     }
 
   enviarPosicao(matricula, latitude, longitude) {
-        fetch("https://smartif-96d6d.firebaseio.com/professor.json",
+        fetch("https://smartif-96d6d.firebaseio.com/professor/"+matricula+".json",
         {
             method: 'PUT',
-            body: this.state.professores + "," + JSON.stringify("{'" + matricula + "' : {'latitude': '" + latitude + "', 'longitude': '" + longitude + "'}}")
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({latitude: latitude, longitude: longitude})
         });
     }
     
