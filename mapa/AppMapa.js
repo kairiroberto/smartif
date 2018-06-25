@@ -124,7 +124,7 @@ class AppMapa extends Component {
                     this.enviarPosicao("12345", this.state.latitudeAl, this.state.longitudeAl);
                     this.enviarPosicao("54321", this.state.latitudeAl, this.state.longitudeAl);
                     this.enviarPosicao("67890", this.state.latitudeAl, this.state.longitudeAl);
-                    this.enviarPosicao(this.state.matricula, this.state.latitudeAl, this.state.longitudeAl);
+                    this.enviarPosicao(AsyncStorage.getItem(USERNAME), this.state.latitudeAl, this.state.longitudeAl);
                     this.consultarPosicao();
                 },
                 (error) => this.setState({error: error.message, latitudeAl: 0.0, longitudeAl: 0.0}),
