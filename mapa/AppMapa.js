@@ -31,7 +31,10 @@ class AppMapa extends Component {
         try {
             this.state = {
                 matricula: "AsyncStorage.getItem(USERNAME, (error) => {})",
-                professores: "",
+                professoresString: "",
+                professoresJson: null,
+                professorString: "",
+                professorJson: null,
                 figura: './ifrnicon.png',
                 infoPosicaoAl: null,
                 latitudeAl: 0.0,
@@ -67,7 +70,29 @@ class AppMapa extends Component {
         .then((response) => response.json())
         .then((responseJson) => {
             this.setState({
-                professores: JSON.stringify(responseJson),
+                professoresString: JSON.stringify(responseJson),
+                professoresJson: JSON.parse(JSON.stringify(responseJson)),
+            });
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    }
+    
+    consultarPosicao(matricula) {
+        fetch("https://smartif-96d6d.firebaseio.com/professor/" + matricula + ".json",
+        {
+            method: 'GET',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            }
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            this.setState({
+                professoresString: JSON.stringify(responseJson),
+                professoresJson: JSON.parse(JSON.stringify(responseJson)),
             });
         })
         .catch((error) => {
@@ -100,7 +125,12 @@ class AppMapa extends Component {
     }
     
     gerarMarker() {
-        
+        for (objteto in this.state.professores) {
+            <MapView.Marker
+                coordinate={{latitude: this.state.latitudeAl, longitude: this.state.longitudeAl}}
+                title={'Aluno'} 
+                />
+        }
     }
 
   componentDidMount() {
@@ -121,9 +151,9 @@ class AppMapa extends Component {
                         infoPosicaoAl: (estaNoIFRN) ? 'Você está no IFRN de Currais Novos' : 'Você não está no IFRN de Currais Novos',
                         error: null,
                     });
-                    this.enviarPosicao("12345", this.state.latitudeAl, this.state.longitudeAl);
-                    this.enviarPosicao("54321", this.state.latitudeAl, this.state.longitudeAl);
-                    this.enviarPosicao("67890", this.state.latitudeAl, this.state.longitudeAl);
+                    this.enviarPosicao("12345", this.state.latitudeAl+0.003, this.state.longitudeAl);
+                    this.enviarPosicao("54321", this.state.latitudeAl+0.004, this.state.longitudeAl);
+                    this.enviarPosicao("67890", this.state.latitudeAl+0.005, this.state.longitudeAl);
                     this.enviarPosicao(AsyncStorage.getItem(USERNAME), this.state.latitudeAl, this.state.longitudeAl);
                     this.consultarPosicao();
                 },
@@ -144,7 +174,8 @@ class AppMapa extends Component {
         return (
                 <View>
                     <Text>
-                        Posicao Firebase: {this.state.professores}
+                        {myObj = this.state.professor}
+                        Posicao Firebase: {Alert.alert(myObj[0].latitude)}
                     </Text>
                     <MapView
                       provider={this.props.provider}
