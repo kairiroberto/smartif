@@ -26,7 +26,7 @@ import App3 from './App3';
 const TelasAuth = SwitchNavigator(
     {
       Auth: Login,
-      App2: App3,
+      App2: App2,
     }
 );
 
