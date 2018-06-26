@@ -19,6 +19,9 @@ import {
     ListView,
     FlatList
 } from 'react-native';
+import {
+  StackNavigator,
+} from 'react-navigation';
 import Mapa from './mapa/AppMapa';
 import Home from './login/AppHome';
 import Config from './login/AppConfig'
@@ -40,7 +43,7 @@ class App3 extends Component {
     render() {
         var navigationView = (
             <View style={{flex: 1, backgroundColor: '#fff'}}>
-              <Button title="Mapa" onPress={() => {Mapa}} style={{margin: 10, fontSize: 15, textAlign: 'left'}} />
+              <Button title="Mapa" onPress={() => {this.props.navigation.navigate('Mapa')}} style={{margin: 10, fontSize: 15, textAlign: 'left', backgroundColor: '#fff'}} />
               <Button title="Configuração" style={{margin: 10, fontSize: 15, textAlign: 'left'}} />
               <Button title="Sair" style={{margin: 10, fontSize: 15, textAlign: 'left'}} />
             </View>
