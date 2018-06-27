@@ -138,7 +138,6 @@ class AppMapa extends Component {
                 (position) => {
                     let estaNoIFRN = this.conferirirPosicaoAluno(position.coords.latitude, position.coords.longitude);
                     this.setState({
-                        marca: this.gerarMarker(),
                         figura: './ifrnicon2.png',
                         region: {
                             latitude: position.coords.latitude,
@@ -167,19 +166,6 @@ class AppMapa extends Component {
 
     onRegionChange(region) {
       this.setState({ region });
-    }
-    
-    gerarPontos(position) {
-	return (<MapView.Marker coordinate={{latitude: position.latitude, longitude: position.longitude}} />);
-    }
-    
-    gerarMarker() {
-	professoresIds = Object.keys(this.state.professoresJson);
-        var result = [];
-	for (i = 0; i < professoresIds.length; i++) {
-	    //this.gerarPontos(this.state.professoresJson[professoresIds[i]]);
-            //Alert.alert("oi:" + professoresIds[i]);
-	}
     }
     
     render() {
