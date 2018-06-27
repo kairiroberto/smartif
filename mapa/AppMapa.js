@@ -142,10 +142,11 @@ class AppMapa extends Component {
                         infoPosicaoAl: (estaNoIFRN) ? 'Você está no IFRN de Currais Novos' : 'Você não está no IFRN de Currais Novos',
                         error: null,
                     });
-                    this.enviarPosicao("12345", this.state.latitudeAl+1.000, this.state.longitudeAl);
-                    this.enviarPosicao("54321", this.state.latitudeAl+2.000, this.state.longitudeAl);
-                    this.enviarPosicao("67890", this.state.latitudeAl+3.000, this.state.longitudeAl);
-                    this.enviarPosicao(AsyncStorage.getItem(USERNAME), this.state.latitudeAl, this.state.longitudeAl);
+                    this.enviarPosicao("celular1", this.state.latitudeAl, this.state.longitudeAl);
+                    //this.enviarPosicao("celular2", this.state.latitudeAl+1.000, this.state.longitudeAl);
+                    //this.enviarPosicao("54321", this.state.latitudeAl+2.000, this.state.longitudeAl);
+                    //this.enviarPosicao("67890", this.state.latitudeAl+3.000, this.state.longitudeAl);
+                    //this.enviarPosicao(AsyncStorage.getItem(USERNAME), this.state.latitudeAl, this.state.longitudeAl);
                     this.consultarPosicao();
                     this.consultarPosicaoMatricula("12345");
                 },
@@ -190,6 +191,7 @@ class AppMapa extends Component {
                         {Object.keys(this.state.professoresJson).map((key) => (
                                 <MapView.Marker 
                                     coordinate={{latitude: this.state.professoresJson[key].latitude, longitude: this.state.professoresJson[key].longitude}} 
+                                    title={{this.state.professoresJson[key]}}
                                 />
                         ))}
                         <MapView.Marker
