@@ -5,17 +5,17 @@
  */
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ImageBackground, TextInput, Button, TouchableOpacity, AsyncStorage, Alert, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Image, ImageBackground, TextInput, Button, TouchableOpacity, TouchableHighlight, AsyncStorage, Alert, Dimensions } from 'react-native';
 import {
   StackNavigator,
   DrawerNavigator,
   SwitchNavigator,
-  DrawerActions,
+  //DrawerActions,
 } from 'react-navigation';
 import Mapa from './mapa/AppMapa';
 import Home from './login/AppHome';
 import Config from './login/AppConfig'
-import Logout from './login/AppLogin';
+import Logout from './login/AppLogout';
 import Login from './login/AppLogin';
 import App from './App';
 
@@ -23,7 +23,7 @@ const MenuDrawer = DrawerNavigator(
     {
         Mapa: { screen: Mapa },
         Configuração: { screen: Config },
-        Logout: { screen: Logout },
+        Logout: { screen: Logout},
     }
 );
 
@@ -35,7 +35,7 @@ const Menu = StackNavigator(
         headerMode: 'float',
         navigationOptions: ({navigation}) => ({
             title: 'SmartIF',
-            headerLeft: <Text onPress={() => navigation.navigate('DrawerOpen')}>Menu</Text>
+            headerLeft: <TouchableHighlight onPress={() => navigation.toggleDrawer()}><Image source={require('./menu-icon.png')} style={{margin: 10, width: 30, height: 30}} /></TouchableHighlight>
         })
     }
 );
