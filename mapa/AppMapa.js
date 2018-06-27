@@ -168,8 +168,11 @@ class AppMapa extends Component {
     
     gerarMarker() {
 	professoresIds = Object.keys(this.state.professoresJson);
+        var result = [];
 	for (i = 0; i < professoresIds.length; i++) {
-	    this.gerarPontos(this.state.professoresJson[professoresIds[i]]);
+	    //this.gerarPontos(this.state.professoresJson[professoresIds[i]]);
+            //Alert.alert("oi:" + professoresIds[i]);
+            result.push
 	}
     }
     
@@ -184,7 +187,11 @@ class AppMapa extends Component {
                       style={styles.map}
                       region={this.state.region}
                     >
-                        {this.gerarMarker()}
+                        {Object.keys(this.state.professoresJson).map((key) => (
+                                <MapView.Marker 
+                                    coordinate={{latitude: this.state.professoresJson[key].latitude, longitude: this.state.professoresJson[key].longitude}} 
+                                />
+                        ))}
                         <MapView.Marker
                             coordinate={{latitude: this.state.latitudeAl, longitude: this.state.longitudeAl}}
                             title={'Aluno'}
