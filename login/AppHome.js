@@ -30,11 +30,11 @@ export default class Home extends Component {
 	professoresIds = Object.keys(this.state.professoresJson);
         result = [];
 	for (i = 0; i < professoresIds.length; i++) {
-	    result.push(this.state.professoresJson[professoresIds[i]]);
+	    result.push(JSON.stringify(this.state.professoresJson[professoresIds[i].matricula]));
             //Alert.alert("oi:" + professoresIds[i]);
 	}
         this.setState ({
-            dados: result
+            dados: result,
         });
     }
     
@@ -71,7 +71,7 @@ export default class Home extends Component {
                         renderItem={
                             ({item}) => 
                                 <Text style={styles.item}> 
-                                    {item.key} 
+                                    {item} 
                                 </Text> 
                         }
                     />
