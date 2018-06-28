@@ -20,7 +20,7 @@ export default class Home extends Component {
     constructor(props){
         super(props);
         this.state = {
-          dados: [],
+          dados: [{key: 1}, {key: 2}, {key: 3}],
           professoresJson: {},
         }
     }
@@ -30,8 +30,9 @@ export default class Home extends Component {
         var result = [];
 	for (var i = 0; i < professoresIds.length; i++) {
 	    //result.push(this.state.professoresJson[professoresIds[i]]);
-            this.state.dados.push({key: i});
+            result.push({key: i});
 	}
+        this.setState({dados: result});
     }
     
     consultarPosicao() {
@@ -63,7 +64,7 @@ export default class Home extends Component {
     render() {
         return (
                 <View style={styles.container}>
-                    <Text> {this.state.result}</Text>
+                    <Text> {this.state.dados}</Text>
                     <FlatList 
                         data={this.state.dados}
                         renderItem={
