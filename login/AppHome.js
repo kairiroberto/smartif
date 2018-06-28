@@ -21,21 +21,18 @@ export default class Home extends Component {
         super(props);
         this.state = {
           dados: [],
+          result: 0,
           professoresJson: {},
         }
     }
     
     gerarArrayJS() {
-        this.consultarPosicao();
 	professoresIds = Object.keys(this.state.professoresJson);
-        result = [];
+        Alert.alert(JSON.stringify(professoresIds));
 	for (i = 0; i < professoresIds.length; i++) {
-	    result.push(JSON.stringify(this.state.professoresJson[professoresIds[i].matricula]));
-            Alert.alert("oi:" + result);
+	    //result.push(JSON.stringify(this.state.professoresJson[professoresIds[i].matricula]));
+            this.setState({result: i});
 	}
-        this.setState ({
-            dados: result,
-        });
     }
     
     consultarPosicao() {
@@ -51,8 +48,9 @@ export default class Home extends Component {
         .then((responseJson) => {
             this.setState({
                 //dados: JSON.parse(JSON.stringify(responseJson)),
-                professoresJson: responseJson,
+                professoresJson: JSON.parse(JSON.stringify(responseJson)),
             });
+            this.gerarArrayJS();
         })
         .catch((error) => {
             console.error(error);
@@ -60,12 +58,13 @@ export default class Home extends Component {
     }
     
     componentDidMount() {
-        this.gerarArrayJS();
+        this.consultarPosicao();
     }
     
     render() {
         return (
                 <View style={styles.container}>
+                    <Text> {this.state.result}</Text>
                     <FlatList 
                         data={this.state.dados}
                         renderItem={
