@@ -21,17 +21,16 @@ export default class Home extends Component {
         super(props);
         this.state = {
           dados: [],
-          result: 0,
           professoresJson: {},
         }
     }
     
     gerarArrayJS() {
 	professoresIds = Object.keys(this.state.professoresJson);
-        Alert.alert(JSON.stringify(professoresIds));
-	for (i = 0; i < professoresIds.length; i++) {
-	    //result.push(JSON.stringify(this.state.professoresJson[professoresIds[i].matricula]));
-            this.setState({result: i});
+        var result = [];
+	for (var i = 0; i < professoresIds.length; i++) {
+	    //result.push(this.state.professoresJson[professoresIds[i]]);
+            this.state.dados.push({key: i});
 	}
     }
     
@@ -70,7 +69,7 @@ export default class Home extends Component {
                         renderItem={
                             ({item}) => 
                                 <Text style={styles.item}> 
-                                    {item} 
+                                    {item.key} 
                                 </Text> 
                         }
                     />
