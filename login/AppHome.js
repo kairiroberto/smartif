@@ -31,7 +31,7 @@ export default class Home extends Component {
         result = [];
 	for (i = 0; i < professoresIds.length; i++) {
 	    result.push(JSON.stringify(this.state.professoresJson[professoresIds[i].matricula]));
-            //Alert.alert("oi:" + professoresIds[i]);
+            Alert.alert("oi:" + result);
 	}
         this.setState ({
             dados: result,
