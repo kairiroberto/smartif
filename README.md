@@ -108,6 +108,8 @@ O primeiro método da aplicação o construtor:
   
 Obs.: "https://smartif-96d6d.firebaseio.com/professor.json" = caminho do banco de dados cujas regras estão públicas para não necessitar de autenticação da base de dados.
 
+![alt text](https://github.com/kairiroberto/smartif/blob/master/Captura4.JPG)
+
 O método 'consultaPosicacaoMatricula(matricula)' é indentico ao método anterior com a única diferença que recebe uma parametro de consulta que é passada na String do método 'fetch' e retorna o registro de apenas um usuário (conforme a matrícula do parametro).
 
 Obs.: "https://smartif-96d6d.firebaseio.com/professor/" + matricula + ".json": no método anterior seria uma retornado um documento 'professor.json', agora o arquivo retornado é 'matricula.json', onde matricula é o login do usuário. Exemplo: 20151038060256.json, 20151038060100.json, etc.
