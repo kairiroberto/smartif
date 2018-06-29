@@ -141,6 +141,7 @@ A principal diferença são no segundo e terceiro parâmetro. No segundo foi uti
 
 ![alt text](https://github.com/kairiroberto/smartif/blob/master/Captura3.JPG)
 
+Para passar os parametros recebidos: matricula, latitude e longitude, e salvá-los no novo nó, essas informações são passadas no terceiro parâmetro do método 'fetch', no 'body' da requisição. Esse 'body' recebe uma String, por isso foi usado o método 'JSON.stringify', que converte um objeto JSON em String.
 
 
   
