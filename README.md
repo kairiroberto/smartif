@@ -48,7 +48,7 @@ Em seguida, são contruídas constantes:
     const LATITUDE_DELTA = 0.0050;
     const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-    const USERNAME = 'username'; //constante para ser utilizada no AsyncStorage como parametro indentificador e recuperar a matrícula do usuário
+    const USERNAME = 'username'; //constante para ser utilizada no AsyncStorage como parâmetro indentificador e recuperar a matrícula do usuário
 
 O primeiro método da aplicação o construtor:
 
@@ -82,8 +82,15 @@ O primeiro método da aplicação o construtor:
         } catch (error) {
         }
       }
-      
-  Métdo de consulta (consultaPosicao()) que pega todos os registros (documentos) de professores no banco de dados firebase, os valores são atualizados sempre que o professor fizer login no sistema:
+  
+Agora vamos começar a trabalhar com o banco de dados do firebase da aplicação, usando a API REST do google:
+  
+  ![alt text](https://github.com/kairiroberto/smartif/blob/master/Captura1.JPG)
+  
+Métdo de consulta (consultaPosicao()) que pega todos os registros (documentos) de professores no banco de dados firebase, os valores são atualizados sempre que o professor fizer login no sistema:
+  
+  ![alt text](https://github.com/kairiroberto/smartif/blob/master/Captura2.JPG)
+  
   
         consultarPosicao() {
               fetch("https://smartif-96d6d.firebaseio.com/professor.json",
@@ -110,10 +117,29 @@ Obs.: "https://smartif-96d6d.firebaseio.com/professor.json" = caminho do banco d
 
 ![alt text](https://github.com/kairiroberto/smartif/blob/master/Captura4.JPG)
 
-O método 'consultaPosicacaoMatricula(matricula)' é indentico ao método anterior com a única diferença que recebe uma parametro de consulta que é passada na String do método 'fetch' e retorna o registro de apenas um usuário (conforme a matrícula do parametro).
+O método 'consultaPosicacaoMatricula(matricula)' é indentico ao método anterior com a única diferença que recebe uma parâmetro de consulta que é passada na String do método 'fetch' e retorna o registro de apenas um usuário (conforme a matrícula do parâmetro).
+
+![alt text](https://github.com/kairiroberto/smartif/blob/master/Captura3.JPG)
 
 Obs.: "https://smartif-96d6d.firebaseio.com/professor/" + matricula + ".json": no método anterior seria uma retornado um documento 'professor.json', agora o arquivo retornado é 'matricula.json', onde matricula é o login do usuário. Exemplo: 20151038060256.json, 20151038060100.json, etc.
 
+Agora vamos ver o método responsável por pegar os dados do usuário no dispositivo e salvar no firebase, o método 'enviarPosicao(matricula, latitude, longitude)'.
+
+    enviarPosicao(matricula, latitude, longitude) {
+        fetch("https://smartif-96d6d.firebaseio.com/professor/"+matricula+".json",
+        {
+            method: 'PUT',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({latitude: latitude, longitude: longitude, matricula: matricula})
+        });
+    }
+
+A principal diferença são no segundo e terceiro parâmetro. No segundo foi utilizado o método PUT que irar ALTERAR (caso a matricula já exista) ou adicionar os dados recebidos no método 'enviarPosicao', lembrando que será adicionado um novo nó em professores referente a 'matricula' informada e esse nó vai ter três valores de matricula, latitude e longitude, conforme a imagem a baixo.
+
+![alt text](https://github.com/kairiroberto/smartif/blob/master/Captura3.JPG)
 
 
 
