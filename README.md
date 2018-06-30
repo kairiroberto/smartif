@@ -38,7 +38,7 @@ O arquivo começa com importações da bibliotecas (pasta 'node_modules') utiliz
     ProviderPropType //não foi utilizado
     } from 'react-native-maps';
 
-Em seguida, são contruídas constantes:
+Em seguida, são contruídas algumas constantes:
 
     const { width, height } = Dimensions.get('window'); //pegar as dimensões da tela do dispositivo
 
@@ -50,7 +50,7 @@ Em seguida, são contruídas constantes:
 
     const USERNAME = 'username'; //constante para ser utilizada no AsyncStorage como parâmetro indentificador e recuperar a matrícula do usuário
 
-O primeiro método da aplicação o construtor:
+O primeiro método da aplicação:
 
       constructor(props) {
         super(props);
@@ -87,7 +87,7 @@ Agora vamos começar a trabalhar com o banco de dados do firebase da aplicação
   
   ![alt text](https://github.com/kairiroberto/smartif/blob/master/Captura1.JPG)
   
-Métdo de consulta (consultaPosicao()) que pega todos os registros (documentos) de professores no banco de dados firebase, os valores são atualizados sempre que o professor fizer login no sistema:
+O Método de consulta (consultaPosicao()) pega todos os registros (documentos) de professores no banco de dados firebase, os valores são atualizados sempre que o professor fizer login no sistema:
   
   ![alt text](https://github.com/kairiroberto/smartif/blob/master/Captura2.JPG)
   
@@ -113,15 +113,15 @@ Métdo de consulta (consultaPosicao()) que pega todos os registros (documentos) 
               });
           }
   
-Obs.: "https://smartif-96d6d.firebaseio.com/professor.json" = caminho do banco de dados cujas regras estão públicas para não necessitar de autenticação da base de dados.
+Obs.: "https://smartif-96d6d.firebaseio.com/professor.json" = caminho do banco de dados cujas regras estão públicas para não necessitar de autenticação na base de dados.
 
 ![alt text](https://github.com/kairiroberto/smartif/blob/master/Captura4.JPG)
 
-O método 'consultaPosicacaoMatricula(matricula)' é indentico ao método anterior com a única diferença que recebe uma parâmetro de consulta que é passada na String do método 'fetch' e retorna o registro de apenas um usuário (conforme a matrícula do parâmetro).
+O método 'consultaPosicacaoMatricula(matricula)' é indentico ao método anterior com a única diferença que recebe um parâmetro de consulta passado na String do método 'fetch' e retorna o registro de apenas um usuário (conforme a matrícula do parâmetro).
 
 ![alt text](https://github.com/kairiroberto/smartif/blob/master/Captura3.JPG)
 
-Obs.: "https://smartif-96d6d.firebaseio.com/professor/" + matricula + ".json": no método anterior seria uma retornado um documento 'professor.json', agora o arquivo retornado é 'matricula.json', onde matricula é o login do usuário. Exemplo: 20151038060256.json, 20151038060100.json, etc.
+Obs.: "https://smartif-96d6d.firebaseio.com/professor/" + matricula + ".json": no método anterior houve o retorno de um documento 'professor.json', agora o arquivo retornado é 'matricula.json', onde matricula é o login do usuário. Exemplo: 20151038060256.json, 20151038060100.json, etc.
 
 Agora vamos ver o método responsável por pegar os dados do usuário no dispositivo e salvar no firebase, o método 'enviarPosicao(matricula, latitude, longitude)'.
 
@@ -137,7 +137,7 @@ Agora vamos ver o método responsável por pegar os dados do usuário no disposi
         });
     }
 
-A principal diferença são no segundo e terceiro parâmetro. No segundo foi utilizado o método PUT que irar ALTERAR (caso a matricula já exista) ou adicionar os dados recebidos no método 'enviarPosicao', lembrando que será adicionado um novo nó em professores referente a 'matricula' informada e esse nó vai ter três valores de matricula, latitude e longitude, conforme a imagem a baixo.
+A principal diferença são no segundo e terceiro parâmetro. No segundo foi utilizado o método PUT que irar ALTERAR (caso a matricula já exista) ou ADICIONAR os dados recebidos no método 'enviarPosicao', lembrando que será adicionado um novo nó em professores referente a 'matricula' informada e esse nó vai ter três valores de matricula, latitude e longitude, conforme a imagem a baixo.
 
 ![alt text](https://github.com/kairiroberto/smartif/blob/master/Captura3.JPG)
 
